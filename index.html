@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harrold's Tree & Land Management</title>
+  <meta name="theme-color" content="#7c3aed" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Harrolds Tree" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card glass">
+      <div class="brand-mark big">🌲</div>
+      <h1>Harrold's Tree & Land Management</h1>
+      <p>Tree & landscaping business command center</p>
+      <label>Account<select id="loginUser"></select></label>
+      <label>Password<input id="loginPin" type="password" placeholder="Enter password" /></label>
+      <button class="primary" id="loginBtn">Login</button>
+      <p class="muted small">Owner temp password: <b>Temp1234</b></p>
+    </div>
+  </div>
+
+  <div id="passwordScreen" class="login-screen hidden">
+    <div class="login-card glass">
+      <div class="brand-mark big">🔐</div>
+      <h1>Change Temporary Password</h1>
+      <p class="muted">Your first password is temporary. Create a private password to continue.</p>
+      <label>New Password<input id="newPassword" type="password" placeholder="Minimum 4 characters" /></label>
+      <label>Confirm Password<input id="confirmPassword" type="password" placeholder="Re-enter password" /></label>
+      <button class="primary" id="savePasswordBtn">Save Password</button>
+    </div>
+  </div>
+
+  <div class="app-shell hidden" id="appShell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">🌲</div><div><h1 id="sideBrandName">Harrold's Tree & Land Management</h1><p>Tree & Landscape Manager</p></div></div>
+      <nav>
+        <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+        <button class="nav-btn" data-tab="schedule">Calendar</button>
+        <button class="nav-btn" data-tab="jobs">Jobs</button>
+        <button class="nav-btn" data-tab="timeoff">Time Off</button>
+        <button class="nav-btn" data-tab="estimates">Estimates</button>
+        <button class="nav-btn" data-tab="customers">Customers</button>
+        <button class="nav-btn" data-tab="employees">Employees</button>
+        <button class="nav-btn" data-tab="equipment">Equipment</button>
+        <button class="nav-btn" data-tab="settings">Settings</button>
+      </nav>
+      <div class="sidebar-card"><span>Signed in</span><strong id="signedInText">Owner</strong></div>
+      <button class="ghost logout" id="logoutBtn">Logout</button>
+    </aside>
+
+    <main class="main">
+      <section id="dashboard" class="tab active">
+        <div class="hero glass"><div><p class="eyebrow">Field Operations</p><h2>Schedule tree work, estimates, mowing, and landscaping from one screen.</h2><p>Built for a growing crew with customers, employee logins, estimates, equipment, and job tracking.</p></div><button class="primary" data-open-tab="schedule">Schedule Job</button></div>
+        <div class="stats-grid">
+          <div class="stat glass"><span>Employees</span><strong id="employeeCount">0</strong></div>
+          <div class="stat glass"><span>Customers</span><strong id="customerCount">0</strong></div>
+          <div class="stat glass"><span>Scheduled Jobs</span><strong id="jobCount">0</strong></div>
+          <div class="stat glass"><span>Open Estimates</span><strong id="estimateCount">0</strong></div>
+          <div class="stat glass"><span>Equipment</span><strong id="equipmentCount">0</strong></div>
+          <div class="stat glass"><span>Next Job</span><strong id="nextJob">None</strong></div>
+          <div class="stat glass"><span>Time Off Requests</span><strong id="timeOffCount">0</strong></div>
+        </div>
+        <div class="panel glass"><div class="panel-head"><h3>Upcoming Field Schedule</h3><button class="ghost" data-open-tab="schedule">Calendar</button></div><div id="upcomingList" class="list"></div></div>
+      </section>
+
+      <section id="schedule" class="tab"><div class="split wide">
+        <div class="panel glass"><h3>Schedule a Job</h3><form id="jobForm" class="form">
+          <label>Job Title<input id="jobTitle" required placeholder="Example: Oak removal estimate" /></label>
+          <label>Service Type<select id="jobType"><option>Tree Removal</option><option>Tree Trimming</option><option>Stump Grinding</option><option>Landscaping</option><option>Mowing</option><option>Clean Up</option><option>Estimate</option><option>Emergency Call</option></select></label>
+          <label>Date<input id="jobDate" type="date" required /></label><label>Time<input id="jobTime" type="time" required /></label>
+          <label>Customer<select id="jobCustomer"></select></label><label>Assigned Employee<select id="jobEmployee"></select></label>
+          <label>Address<input id="jobAddress" placeholder="Job address" /></label>
+          <label>Status<select id="jobStatus"><option>Scheduled</option><option>Estimate Needed</option><option>In Progress</option><option>Completed</option><option>Needs Follow-Up</option><option>Cancelled</option></select></label>
+          <label>Notes<textarea id="jobNotes" placeholder="Gate code, tree details, equipment needed, price, hazards..."></textarea></label>
+          <button class="primary" type="submit">Save Job</button></form></div>
+        <div class="panel glass"><div class="panel-head"><h3>Calendar Board</h3><input id="calendarFilter" type="month" /></div><div id="calendarGrid" class="calendar-grid"></div></div>
+      </div></section>
+
+      <section id="jobs" class="tab"><div class="panel glass"><div class="panel-head"><h3>All Jobs</h3><button class="ghost" data-open-tab="schedule">Add Job</button></div><div id="jobList" class="cards"></div></div></section>
+
+
+      <section id="timeoff" class="tab"><div class="split">
+        <div class="panel glass"><h3>Request Days Off</h3><p class="muted">Employees can submit one day or a range of days. Owners can approve or deny requests.</p><form id="timeOffForm" class="form">
+          <label>Start Date<input id="timeOffStart" type="date" required /></label>
+          <label>End Date<input id="timeOffEnd" type="date" required /></label>
+          <label>Reason<textarea id="timeOffReason" placeholder="Example: appointment, vacation, family event..."></textarea></label>
+          <button class="primary" type="submit">Submit Request</button>
+        </form></div>
+        <div class="panel glass"><div class="panel-head"><h3 id="timeOffListTitle">Time Off Requests</h3><span class="tag" id="timeOffRoleTag">Employee View</span></div><div id="timeOffList" class="cards"></div></div>
+      </div></section>
+
+      <section id="estimates" class="tab"><div class="split">
+        <div class="panel glass"><h3>Create Estimate</h3><form id="estimateForm" class="form">
+          <label>Customer<select id="estimateCustomer"></select></label><label>Service Type<select id="estimateType"><option>Tree Removal</option><option>Tree Trimming</option><option>Stump Grinding</option><option>Landscaping</option><option>Mowing</option><option>Clean Up</option></select></label>
+          <label>Quoted Price<input id="estimatePrice" type="number" min="0" step="0.01" placeholder="0.00" /></label><label>Status<select id="estimateStatus"><option>Pending</option><option>Approved</option><option>Declined</option><option>Needs Revision</option></select></label>
+          <label>Details<textarea id="estimateDetails" placeholder="Scope of work, disposal, materials, crew size, equipment..."></textarea></label><button class="primary" type="submit">Save Estimate</button></form></div>
+        <div class="panel glass"><h3>Estimate List</h3><div id="estimateList" class="cards"></div></div>
+      </div></section>
+
+      <section id="customers" class="tab"><div class="split"><div class="panel glass"><h3>Add Customer</h3><form id="customerForm" class="form"><label>Name<input id="customerName" required placeholder="Customer name" /></label><label>Phone<input id="customerPhone" placeholder="Phone number" /></label><label>Email<input id="customerEmail" type="email" placeholder="Email address" /></label><label>Property Address<input id="customerAddress" placeholder="Main property address" /></label><label>Notes<textarea id="customerNotes" placeholder="Trees, lawn size, pets, gates, preferred times..."></textarea></label><button class="primary" type="submit">Save Customer</button></form></div><div class="panel glass"><h3>Customer List</h3><div id="customerList" class="cards"></div></div></div></section>
+
+      <section id="employees" class="tab"><div class="split"><div class="panel glass"><h3>Add Employee Login</h3><form id="employeeForm" class="form"><label>Name<input id="employeeName" required placeholder="Employee name" /></label><label>Role<input id="employeeRole" placeholder="Ground crew, climber, estimator..." /></label><label>Phone<input id="employeePhone" placeholder="Phone number" /></label><label>Temporary Password<input id="employeePin" placeholder="First login password" /></label><label>Notes<textarea id="employeeNotes" placeholder="Availability, skills, reminders..."></textarea></label><button class="primary" type="submit">Save Employee</button></form></div><div class="panel glass"><h3>Employee List</h3><div id="employeeList" class="cards"></div></div></div></section>
+
+      <section id="equipment" class="tab"><div class="split"><div class="panel glass"><h3>Add Equipment</h3><form id="equipmentForm" class="form"><label>Name<input id="equipmentName" required placeholder="Truck, trailer, chainsaw, mower..." /></label><label>Type<select id="equipmentType"><option>Truck</option><option>Trailer</option><option>Chainsaw</option><option>Mower</option><option>Skid Steer</option><option>Climbing Gear</option><option>Other</option></select></label><label>Status<select id="equipmentStatus"><option>Ready</option><option>Needs Maintenance</option><option>Out of Service</option></select></label><label>Notes<textarea id="equipmentNotes" placeholder="Oil change, blade, chain, tags, repair notes..."></textarea></label><button class="primary" type="submit">Save Equipment</button></form></div><div class="panel glass"><h3>Equipment List</h3><div id="equipmentList" class="cards"></div></div></div></section>
+
+      <section id="settings" class="tab"><div class="split"><div class="panel glass"><h3>Business Settings</h3><form id="settingsForm" class="form"><label>Business / App Name<input id="settingBusinessName" /></label><label>Business Phone<input id="settingPhone" /></label><label>Business Email<input id="settingEmail" type="email" /></label><label>Default Service Area<input id="settingServiceArea" /></label><label>Notes<textarea id="settingNotes" placeholder="Licenses, insurance notes, default estimate terms..."></textarea></label><button class="primary" type="submit">Save Settings</button></form></div><div class="panel glass"><h3>Account Security</h3><form id="changePasswordForm" class="form"><label>Current Password<input id="currentPassword" type="password" /></label><label>New Password<input id="accountNewPassword" type="password" /></label><label>Confirm New Password<input id="accountConfirmPassword" type="password" /></label><button class="primary" type="submit">Change My Password</button></form><div class="settings-note"><strong>Owner accounts</strong><p class="muted">Casey.royal and Lucas.harrold are owner accounts. Temp password is Temp1234 until changed.</p></div><div class="cloud-box"><strong>Cloud Sync</strong><p id="cloudStatus" class="muted">Checking...</p></div><button class="danger" id="exportBtn">Export Backup JSON</button></div></div></section>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
+  <script>if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("service-worker.js")); }</script>
+</body>
+</html>

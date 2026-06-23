@@ -1,0 +1,2 @@
+-- This file has been replaced by SUPABASE-PERMANENT-SCHEMA.sql.
+-- Run SUPABASE-PERMANENT-SCHEMA.sql in Supabase SQL Editor.
