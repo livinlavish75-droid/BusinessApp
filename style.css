@@ -50,3 +50,19 @@
     object-fit:contain;
     display:block;
 }
+
+.login-card .logo-icon{
+    margin:0 auto 16px;
+}
+
+.brand{
+    align-items:flex-start;
+}
+
+.brand h1{
+    white-space:normal;
+    word-break:keep-all;
+    overflow-wrap:normal;
+    line-height:1.18;
+    font-size:20px;
+}
