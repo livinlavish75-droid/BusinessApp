@@ -27,3 +27,7 @@
 .brand>div:last-child{min-width:0;flex:1;}
 .brand h1{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.12;max-width:100%;word-break:normal;overflow-wrap:break-word;}
 @media(max-width:1100px){.brand h1{font-size:17px;line-height:1.15;}}
+
+.check-row{display:flex!important;align-items:center;gap:10px;flex-direction:row!important;margin:10px 0;color:var(--muted)}
+.check-row input{width:auto!important}.full{width:100%;margin-top:8px}.photo-thumb{width:100%;max-height:180px;object-fit:cover;border-radius:16px;margin-top:10px;border:1px solid rgba(255,255,255,.12)}
+.notification-dot{display:inline-block;min-width:22px;padding:3px 8px;border-radius:999px;background:rgba(124,58,237,.25);border:1px solid rgba(255,255,255,.12)}

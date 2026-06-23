@@ -9,7 +9,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Harrolds Tree" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" href="icons/favicon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -20,8 +21,23 @@
       <p>Tree & landscaping business command center</p>
       <label>Account<select id="loginUser"></select></label>
       <label>Password<input id="loginPin" type="password" placeholder="Enter password" /></label>
+      <label class="check-row"><input id="rememberMe" type="checkbox" /> Remember Me</label>
       <button class="primary" id="loginBtn">Login</button>
-      <p class="muted small">Owner temp password: <b>Temp1234</b></p>
+      <button class="ghost full" id="forgotPasswordBtn" type="button">Forgot Password?</button>
+      <p class="muted small">Passwords are private and never shown on this screen.</p>
+    </div>
+  </div>
+  </div>
+
+  <div id="forgotPasswordScreen" class="login-screen hidden">
+    <div class="login-card glass">
+      <div class="brand-mark big">🔑</div>
+      <h1>Forgot Password?</h1>
+      <p class="muted">Send a reset request to the owners. An owner can give you a new temporary password.</p>
+      <label>Account / Username<input id="forgotUsername" placeholder="Enter your username" /></label>
+      <label>Message<textarea id="forgotMessage" placeholder="Optional note for Casey or Lucas"></textarea></label>
+      <button class="primary" id="sendResetRequestBtn" type="button">Send Reset Request</button>
+      <button class="ghost full" id="backToLoginBtn" type="button">Back to Login</button>
     </div>
   </div>
 
@@ -66,7 +82,7 @@
           <div class="stat glass"><span>Next Job</span><strong id="nextJob">None</strong></div>
           <div class="stat glass"><span>Time Off Requests</span><strong id="timeOffCount">0</strong></div>
         </div>
-        <div class="panel glass"><div class="panel-head"><h3>Upcoming Field Schedule</h3><button class="ghost" data-open-tab="schedule">Calendar</button></div><div id="upcomingList" class="list"></div></div>
+        <div class="panel glass"><div class="panel-head"><h3>Owner Notifications</h3><span class="tag" id="notificationCount">0</span></div><div id="notificationList" class="list"></div></div><div class="panel glass"><div class="panel-head"><h3>Upcoming Field Schedule</h3><button class="ghost" data-open-tab="schedule">Calendar</button></div><div id="upcomingList" class="list"></div></div>
       </section>
 
       <section id="schedule" class="tab"><div class="split wide">
@@ -82,7 +98,8 @@
         <div class="panel glass"><div class="panel-head"><h3>Calendar Board</h3><input id="calendarFilter" type="month" /></div><div id="calendarGrid" class="calendar-grid"></div></div>
       </div></section>
 
-      <section id="jobs" class="tab"><div class="panel glass"><div class="panel-head"><h3>All Jobs</h3><button class="ghost" data-open-tab="schedule">Add Job</button></div><div id="jobList" class="cards"></div></div></section>
+      <section id="jobs" class="tab"><div class="panel glass"><div class="panel-head"><h3>All Jobs</h3><button class="ghost" data-open-tab="schedule">Add Job</button></div><div id="jobList" class="cards"></div></div>
+        <div class="panel glass"><h3>Upload Job-Site Photo</h3><p class="muted">Employees can upload before/after photos from their phone camera to a job they can see.</p><form id="jobPhotoForm" class="form"><label>Job<select id="photoJobSelect"></select></label><label>Photo<input id="jobPhotoInput" type="file" accept="image/*" capture="environment" /></label><label>Caption<input id="jobPhotoCaption" placeholder="Before photo, after cleanup, stump area..." /></label><button class="primary" type="submit">Save Photo To Job</button></form></div></section>
 
 
       <section id="timeoff" class="tab"><div class="split">
@@ -109,7 +126,7 @@
 
       <section id="equipment" class="tab"><div class="split"><div class="panel glass"><h3>Add Equipment</h3><form id="equipmentForm" class="form"><label>Name<input id="equipmentName" required placeholder="Truck, trailer, chainsaw, mower..." /></label><label>Type<select id="equipmentType"><option>Truck</option><option>Trailer</option><option>Chainsaw</option><option>Mower</option><option>Skid Steer</option><option>Climbing Gear</option><option>Other</option></select></label><label>Status<select id="equipmentStatus"><option>Ready</option><option>Needs Maintenance</option><option>Out of Service</option></select></label><label>Notes<textarea id="equipmentNotes" placeholder="Oil change, blade, chain, tags, repair notes..."></textarea></label><button class="primary" type="submit">Save Equipment</button></form></div><div class="panel glass"><h3>Equipment List</h3><div id="equipmentList" class="cards"></div></div></div></section>
 
-      <section id="settings" class="tab"><div class="split"><div class="panel glass"><h3>Business Settings</h3><form id="settingsForm" class="form"><label>Business / App Name<input id="settingBusinessName" /></label><label>Business Phone<input id="settingPhone" /></label><label>Business Email<input id="settingEmail" type="email" /></label><label>Default Service Area<input id="settingServiceArea" /></label><label>Notes<textarea id="settingNotes" placeholder="Licenses, insurance notes, default estimate terms..."></textarea></label><button class="primary" type="submit">Save Settings</button></form></div><div class="panel glass"><h3>Account Security</h3><form id="changePasswordForm" class="form"><label>Current Password<input id="currentPassword" type="password" /></label><label>New Password<input id="accountNewPassword" type="password" /></label><label>Confirm New Password<input id="accountConfirmPassword" type="password" /></label><button class="primary" type="submit">Change My Password</button></form><div class="settings-note"><strong>Owner accounts</strong><p class="muted">Casey.royal and Lucas.harrold are owner accounts. Temp password is Temp1234 until changed.</p></div><div class="cloud-box"><strong>Cloud Sync</strong><p id="cloudStatus" class="muted">Checking...</p></div><button class="danger" id="exportBtn">Export Backup JSON</button></div></div></section>
+      <section id="settings" class="tab"><div class="split"><div class="panel glass"><h3>Business Settings</h3><form id="settingsForm" class="form"><label>Business / App Name<input id="settingBusinessName" /></label><label>Business Phone<input id="settingPhone" /></label><label>Business Email<input id="settingEmail" type="email" /></label><label>Default Service Area<input id="settingServiceArea" /></label><label>Notes<textarea id="settingNotes" placeholder="Licenses, insurance notes, default estimate terms..."></textarea></label><button class="primary" type="submit">Save Settings</button></form></div><div class="panel glass"><h3>Account Security</h3><form id="changePasswordForm" class="form"><label>Current Password<input id="currentPassword" type="password" /></label><label>New Password<input id="accountNewPassword" type="password" /></label><label>Confirm New Password<input id="accountConfirmPassword" type="password" /></label><button class="primary" type="submit">Change My Password</button></form><div class="settings-note"><strong>Owner accounts</strong><p class="muted">Casey.royal and Lucas.harrold are owner accounts. Owner password details are hidden from the login screen.</p></div><div class="cloud-box"><strong>Cloud Sync</strong><p id="cloudStatus" class="muted">Checking...</p></div><div class="cloud-box"><strong>Password Reset Requests</strong><div id="passwordResetList" class="cards"></div></div><button class="danger" id="exportBtn">Export Backup JSON</button></div></div></section>
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
